@@ -1,2 +1,11 @@
-_soft_delete
-analysist_out_test
+
+# Ignore everything at the repository root
+/*
+
+# Keep this .gitignore file tracked
+!/.gitignore
+
+# Allow only the Thigiacmaytinh directory and all its contents
+!/Thigiacmaytinh/
+!/Thigiacmaytinh/**
+
