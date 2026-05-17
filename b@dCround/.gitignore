@@ -2,8 +2,8 @@
 # Ignore everything at the repository root
 /*
 
-# Keep this .ignore file tracked
-!/.ignore
+# Keep this .gitignore file tracked
+!/.gitignore
 
 # Allow only the Thigiacmaytinh directory and all its contents
 !/Thigiacmaytinh/
