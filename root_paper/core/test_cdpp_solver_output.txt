@@ -1,0 +1,80 @@
+CDPP Solver Comparison: HiGHS vs CBC (python-mip)
+===========================================================================
+
+===========================================================================
+Instance: random_n5_s42 | n=5 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    122.05  time=  0.125s  parks= 5  D=86.6 P=25.0 W=0.0 L=10.5
+  [CBC  ] CDPP exact : obj=    122.05  time=  0.071s  parks= 5  status=OPTIMAL
+  [CBC  ] ModTSP     : obj=    122.05  time=  0.036s  parks= 5  status=OPTIMAL
+  [HIGHS] TwoEchelon : obj=    122.05  time=  0.111s  parks= 5  D=86.6 P=25.0 W=0.0 L=10.5
+  [HIGHS] CDPP exact : obj=    122.05  time=  0.076s  parks= 5  status=OPTIMAL
+  [HIGHS] ModTSP     : obj=    122.05  time=  0.033s  parks= 5  status=OPTIMAL
+
+===========================================================================
+Instance: random_n8_s42 | n=8 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    161.41  time=  0.075s  parks= 8  D=104.6 P=40.0 W=0.0 L=16.8
+  [CBC  ] CDPP exact : obj=    161.41  time=  0.649s  parks= 8  status=OPTIMAL
+  [CBC  ] ModTSP     : obj=    161.41  time=  0.685s  parks= 8  status=OPTIMAL
+  [HIGHS] TwoEchelon : obj=    161.41  time=  0.047s  parks= 8  D=104.6 P=40.0 W=0.0 L=16.8
+  [HIGHS] CDPP exact : obj=    161.41  time=  0.504s  parks= 8  status=OPTIMAL
+  [HIGHS] ModTSP     : obj=    161.41  time=  0.140s  parks= 8  status=OPTIMAL
+
+===========================================================================
+Instance: random_n10_s42 | n=10 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    179.86  time=  0.267s  parks=10  D=108.9 P=50.0 W=0.0 L=21.0
+  [CBC  ] CDPP exact : obj=    179.86  time=  3.445s  parks=10  status=OPTIMAL
+  [CBC  ] ModTSP     : obj=    179.86  time=  2.257s  parks=10  status=OPTIMAL
+  [HIGHS] TwoEchelon : obj=    179.86  time=  0.128s  parks=10  D=108.9 P=50.0 W=0.0 L=21.0
+  [HIGHS] CDPP exact : obj=    179.86  time=  0.926s  parks=10  status=OPTIMAL
+  [HIGHS] ModTSP     : obj=    179.86  time=  0.559s  parks=10  status=OPTIMAL
+
+===========================================================================
+Instance: random_n15_s42 | n=15 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    222.36  time=  1.049s  parks=15  D=115.9 P=75.0 W=0.0 L=31.5
+  [CBC  ] CDPP exact : obj=    222.36  time= 10.349s  parks=15  status=OPTIMAL
+  [CBC  ] ModTSP     : obj=    222.36  time=  1.271s  parks=15  status=OPTIMAL
+  [HIGHS] TwoEchelon : obj=    222.36  time=  0.082s  parks=15  D=115.9 P=75.0 W=0.0 L=31.5
+  [HIGHS] CDPP exact : obj=    222.36  time= 12.602s  parks=15  status=OPTIMAL
+  [HIGHS] ModTSP     : obj=    222.36  time=  0.495s  parks=15  status=OPTIMAL
+
+===========================================================================
+Instance: random_n20_s42 | n=20 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    287.52  time=  3.532s  parks=19  D=141.2 P=95.0 W=9.3 L=42.0
+  [CBC  ] ModTSP     : obj=    283.30  time=  5.400s  parks=20  status=OPTIMAL
+  [HIGHS] TwoEchelon : obj=    287.61  time=  0.371s  parks=19  D=141.3 P=95.0 W=9.3 L=42.0
+  [HIGHS] ModTSP     : obj=    283.30  time=  2.786s  parks=20  status=OPTIMAL
+
+===========================================================================
+Instance: random_n30_s42 | n=30 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    394.84  time= 24.699s  parks=29  D=177.5 P=145.0 W=9.3 L=63.0
+  [HIGHS] TwoEchelon : obj=    394.84  time=  3.392s  parks=29  D=177.5 P=145.0 W=9.3 L=63.0
+
+===========================================================================
+Instance: random_n35_s42 | n=35 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    446.24  time=207.246s  parks=34  D=193.4 P=170.0 W=9.3 L=73.5
+  [HIGHS] TwoEchelon : obj=    446.24  time= 37.666s  parks=34  D=193.4 P=170.0 W=9.3 L=73.5
+
+===========================================================================
+Instance: random_n40_s42 | n=40 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    487.10  time=276.515s  parks=39  D=198.8 P=195.0 W=9.3 L=84.0
+  [HIGHS] TwoEchelon : obj=    487.10  time= 32.637s  parks=39  D=198.8 P=195.0 W=9.3 L=84.0
+
+===========================================================================
+Instance: random_n45_s42 | n=45 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    529.38  time= 64.695s  parks=44  D=205.5 P=220.0 W=9.3 L=94.5
+  [HIGHS] TwoEchelon : obj=    529.38  time=  9.166s  parks=44  D=205.5 P=220.0 W=9.3 L=94.5
+
+===========================================================================
+Instance: random_n50_s42 | n=50 | q=3 | p=5.0
+===========================================================================
+  [CBC  ] TwoEchelon : obj=    -       time=      -s  parks=48  D=233.0 P=240.0 W=17.2 L=105.0
+  [HIGHS] TwoEchelon : obj=    595.25  time= 88.522s  parks=48  D=233.0 P=240.0 W=17.2 L=105.0
