@@ -1,42 +1,54 @@
 # Đề cương nghiên cứu
-**Phân lớp ảnh X-quang xương y khoa bằng Foundation Models: khảo sát, tái lập inference và đánh giá trên dữ liệu BTXRD**
+
+## Phân lớp ảnh X-quang xương y khoa bằng Foundation Models: khảo sát, tái lập inference và đánh giá trên dữ liệu BTXRD
+
+---
 
 # 1. Giới thiệu đề tài
 
-Đề tài tập trung nghiên cứu bài toán phân lớp ảnh y khoa về xương, đặc biệt là ảnh X-quang xương, bằng các mô hình nền tảng đa phương thức như Medical Vision-Language Models — Med-VLM và Medical Multimodal Large Language Models — Med-MLLM.
+Đề tài nghiên cứu bài toán **phân lớp ảnh X-quang xương** bằng các mô hình nền tảng đa phương thức, gồm **Medical Vision-Language Models (Med-VLM)** và **Medical Multimodal Large Language Models (Med-MLLM)**.
 
-Trọng tâm nghiên cứu không chỉ là huấn luyện một mô hình phân loại truyền thống, mà là khảo sát khả năng áp dụng các mô hình đã được tiền huấn luyện trên dữ liệu ảnh-văn bản y khoa vào các tác vụ như:
+Trọng tâm của đề tài không chỉ là huấn luyện một mô hình phân loại truyền thống, mà là khảo sát khả năng áp dụng các mô hình đã được tiền huấn luyện trên dữ liệu ảnh-văn bản y khoa vào bài toán phân loại ảnh xương.
 
-phân biệt ảnh xương bình thường và bất thường;
-phân loại tổn thương hoặc khối u xương;
-đánh giá khả năng zero-shot, few-shot và fine-tuning nhẹ;
-so sánh workflow truyền thống với workflow dùng Foundation Model.
+Các hướng chính:
 
-Dataset chính Bone Tumor X-ray Radiograph Dataset — BTXRD. Theo mô tả công bố, BTXRD gồm 3.746 ảnh X-quang xương, trong đó có 1.879 ảnh bình thường và 1.867 ảnh có khối u; dataset cũng có nhãn toàn cục, thông tin lâm sàng, mask và bounding box cho vùng tổn thương.
+- Phân biệt ảnh xương **bình thường** và **bất thường**.
+- Phân loại ảnh có dấu hiệu **tổn thương hoặc khối u xương**.
+- Đánh giá khả năng **zero-shot**, **few-shot** và **fine-tuning nhẹ**.
+- So sánh workflow truyền thống với workflow dùng Foundation Model.
 
-# 2. Các Ý nghĩa của đề tài
+Dataset chính được sử dụng là **Bone Tumor X-ray Radiograph Dataset (BTXRD)**. Dataset này phù hợp với hướng nghiên cứu vì có ảnh X-quang xương, nhãn phân loại và có thể mở rộng sang các bài toán localization/segmentation nếu cần.
+
+---
+
+# 2. Ý nghĩa của đề tài
+
 ## 2.1. Ý nghĩa khoa học
-Đề tài có ý nghĩa khoa học ở ba điểm chính.
 
-Thứ nhất, nó giúp làm rõ khả năng chuyển giao tri thức của Foundation Model sang miền ảnh y khoa chuyên biệt. Các mô hình như MedCLIP được thiết kế để học liên kết giữa ảnh y khoa và văn bản y khoa, thay vì chỉ học nhãn phân loại cố định như CNN truyền thống. MedCLIP đề xuất cách học contrastive từ ảnh và văn bản không ghép cặp trực tiếp, đồng thời dùng semantic matching loss để giảm lỗi “false negative” trong dữ liệu y khoa.
+Đề tài có ba ý nghĩa khoa học chính.
 
-Thứ hai, đề tài giúp đánh giá mức độ hiệu quả của các hướng zero-shot, few-shot và parameter-efficient fine-tuning. Paper CLIP-LoRA cho thấy LoRA có thể được dùng để thích nghi Vision-Language Model trong bối cảnh few-shot, giảm chi phí huấn luyện so với fine-tuning toàn bộ mô hình.
+Thứ nhất, đề tài giúp đánh giá khả năng **chuyển giao tri thức** của Foundation Model sang miền ảnh y khoa chuyên biệt. Thay vì học trực tiếp từ nhãn cố định như CNN truyền thống, Med-VLM học quan hệ giữa ảnh y khoa và mô tả văn bản.
 
-Thứ ba, đề tài tạo ra một workflow nghiên cứu có thể tái lập: từ khảo sát mô hình, chạy inference, đánh giá kết quả, đến phân tích lỗi trên dữ liệu ảnh xương. Đây là bước quan trọng nếu muốn phát triển tiếp thành một bài báo hoặc một benchmark nhỏ cho phân lớp ảnh X-quang xương.
+Thứ hai, đề tài khảo sát các hướng học hiện đại như **zero-shot**, **few-shot** và **parameter-efficient fine-tuning**. Đây là các hướng phù hợp với y khoa vì dữ liệu thường ít, khó thu thập và khó gán nhãn.
+
+Thứ ba, đề tài tạo ra một workflow nghiên cứu có thể tái lập: khảo sát mô hình, chạy inference, đánh giá kết quả và phân tích lỗi trên ảnh X-quang xương.
 
 ## 2.2. Ý nghĩa ứng dụng
-Về ứng dụng, đề tài có thể hỗ trợ xây dựng các hệ thống AI giúp sàng lọc sơ bộ ảnh X-quang xương, phát hiện ảnh có dấu hiệu bất thường và hỗ trợ bác sĩ trong quá trình đọc ảnh.
 
-Trong bối cảnh dữ liệu y khoa thường ít, đắt và khó gán nhãn, các mô hình Foundation Model có tiềm năng vì có thể hoạt động ở chế độ zero-shot hoặc few-shot. Điều này phù hợp với các bài toán y khoa hẹp, nơi nhóm nghiên cứu không có đủ tài nguyên để huấn luyện một mô hình lớn từ đầu.
+Về ứng dụng, đề tài có thể hỗ trợ xây dựng hệ thống AI giúp **sàng lọc sơ bộ ảnh X-quang xương**, phát hiện ảnh có dấu hiệu bất thường và hỗ trợ bác sĩ trong quá trình đọc ảnh.
 
-Tuy nhiên, kết quả của đề tài nên được trình bày theo hướng hỗ trợ nghiên cứu và hỗ trợ quyết định, không khẳng định thay thế chẩn đoán lâm sàng.
+Tuy nhiên, kết quả của đề tài nên được trình bày theo hướng **hỗ trợ nghiên cứu và hỗ trợ quyết định**, không khẳng định thay thế chẩn đoán lâm sàng.
 
-# 4. Survey: Workflow của bài toán image classification nói chung
-## 4.1. Mục tiêu của bài toán classification
+---
 
-Bài toán classification không chỉ nhận ảnh làm đầu vào. Tùy loại dữ liệu, input có thể là ảnh, văn bản, âm thanh, bảng dữ liệu, tín hiệu y sinh, hoặc dữ liệu đa phương thức. Mục tiêu chung là ánh xạ input về một hoặc nhiều nhãn đầu ra đã được định nghĩa trước.
+# 3. Workflow tổng quát của bài toán Classification
 
-Ví dụ:
+## 3.1. Mục tiêu của bài toán Classification
+
+Bài toán classification nhận một mẫu đầu vào `x` và dự đoán nhãn `y` thuộc một tập lớp đã định nghĩa trước.
+
+Input không chỉ là ảnh. Tùy bài toán, input có thể là:
+
 ```txt
 Image Classification      : ảnh -> nhãn lớp
 Text Classification       : văn bản -> nhãn chủ đề/cảm xúc
@@ -45,94 +57,395 @@ Medical Classification    : ảnh + metadata -> nhãn bệnh lý
 Multimodal Classification : ảnh + text + metadata -> nhãn phân loại
 ```
 
-Workflow tổng quát có thể mô tả theo dạng chữ U, trong đó nhánh trái là quá trình chuẩn bị và học biểu diễn, đáy chữ U là mô hình học từ dữ liệu, còn nhánh phải là quá trình suy luận, kiểm định và diễn giải kết quả.
+Phát biểu tổng quát:
 
 ```txt
-                [1] Problem Definition <-
-               /                        |
-              v                         |
+Input  : x = một mẫu dữ liệu đơn phương thức hoặc đa phương thức
+Model  : f(x)
+Output : y = nhãn dự đoán thuộc tập lớp đã định nghĩa
+```
+
+---
+
+## 3.2. Workflow cho bài toán Classification
+
+Workflow classification có thể mô tả theo dạng **chữ U**. Nhánh trái là quá trình định nghĩa và chuẩn bị dữ liệu; đáy là huấn luyện mô hình; nhánh phải là suy luận, kiểm định và diễn giải output.
+
+```txt
+                 [1] Problem Definition
+                /                       \
+               v                         v
  [2] Input Space                    [8] Output Space
      - image                            - predicted label
-     - text                             - probability / confidence
-     - tabular data                     - top-k classes
-     - metadata                         - explanation if needed
-              |                         ^
-              v                         |
+     - text                             - probability score
+     - tabular data                     - confidence score
+     - metadata                         - top-k classes
+     - multimodal input                 - explanation/heatmap
+               |                         ^
+               v                         |
  [3] Label Space                    [7] Validation & Evaluation
-     - binary class                     - accuracy
-     - multi-class                      - precision / recall
-     - multi-label                      - F1-score / AUROC
-     - class hierarchy                  - confusion matrix
-              |                         ^
-              v                         |
+     - binary class                     - validation loss
+     - multi-class                      - accuracy
+     - multi-label                      - precision / recall
+     - class hierarchy                  - F1-score / AUROC
+               |                         ^
+               v                         |
  [4] Data Preparation              [6] Inference / Prediction
      - cleaning                         - forward pass
      - preprocessing                    - logits
-     - augmentation                     - softmax / sigmoid score
-     - train/val/test split             - decision threshold
-              \                        ^
-               v                      / 
-                 [5] Model Training
-                 - feature learning
-                 - optimization
-                 - loss minimization
-                 - parameter update
+     - augmentation                     - softmax/sigmoid
+     - train/val/test split             - threshold decision
+                \                       /
+                 v                     v
+                  [5] Model Training
+                  - feature learning
+                  - loss minimization
+                  - optimization
+                  - parameter update
 ```
 
-## 4.2. Supervised CNN/ViT truyền thống
+---
 
-## 4.3. Zero-shot/Few-shot classification
+## 3.3. Giải thích các thành phần trong workflow
 
-# 7. Phát biểu lại bài toán nghiên cứu
-## 7.1. Bài toán tổng quát
+| Thành phần | Vai trò chính | Ví dụ trong bài toán ảnh xương |
+|---|---|---|
+| Problem Definition | Xác định bài toán cần giải | Phân loại Normal/Tumor |
+| Input Space | Xác định dữ liệu đầu vào | Ảnh X-quang, metadata, prompt |
+| Label Space | Xác định tập nhãn | Normal, Benign, Malignant |
+| Data Preparation | Làm sạch và chuẩn hóa dữ liệu | Resize ảnh, chia train/val/test |
+| Model Training | Huấn luyện hoặc thích nghi mô hình | CNN, ViT, MedCLIP, LoRA |
+| Inference | Dự đoán trên mẫu mới | Tính xác suất từng lớp |
+| Validation | Kiểm tra độ tin cậy mô hình | Accuracy, Recall, F1, AUROC |
+| Output Space | Trả về kết quả cuối cùng | Nhãn, confidence, giải thích |
 
-Cho một ảnh X-quang xương và các nhận đinh về bệnh có thể nhận định và ảnh ko phải nói về cùng 1 đối tượng, hệ thống cần dự đoán ảnh thuộc lớp nào trong tập nhãn y khoa đã định nghĩa trước.
+---
 
-## 7.2. Mục tiêu theo các cấp bậc
-Input, output
+## 3.4. Validation cần đánh giá những gì?
 
-<TODO: kẻ bảng nôi dung sau cho tôi>
-Cấp 1: Hiểu mô hình và kỹ thuật
+Validation không chỉ trả về một con số accuracy. Trong classification, validation cần đánh giá cả **giá trị output**, **độ tin cậy** và **kiểu lỗi** của mô hình.
 
-Nhóm cần hiểu các kỹ thuật chính:
+Input của validation gồm:
 
-Cấp 2: Chạy inference để xác nhận kết quả
+```txt
+Validation set
+Ground-truth labels
+Model predictions
+Probability scores
+Decision threshold
+Evaluation metrics
+```
 
-Cấp 3: Nhận định trên kết quả hoặc dataset mới
-# Timeline thực hiện
-## Các tasks của project
-- Khảo sát đề tài và tài liệu (Related work)
-- Viết survey workflow
-- Chuẩn bị dữ liệu
-- Chạy 1 số baseline truyền thống (CNN/ViT hoặc pretrained ResNet) & Ghi nhận và đánh giá kết quả
-- Zero-shot Med-VLM applied (inference với MedCLIP/BioMedCLIP) & Ghi nhận và đánh giá kết quả
-- Few-shot adaptation applied (phân tích tính khả thi với tài nguyên hiện có)
-- Đưa ra định hướng rõ hơn về nghiên cứu & Report
+Output của validation nên gồm:
 
-## Phân công thành viên
-<TODO: kẻ bảng nội dung sau cho tôi>
-25C11042-Nguyễn Trọng Hiếu 
+| Output validation | Ý nghĩa |
+|---|---|
+| Validation loss | Mức sai số của mô hình trên tập validation |
+| Accuracy | Tỷ lệ dự đoán đúng tổng thể |
+| Precision | Trong các mẫu dự đoán dương tính, có bao nhiêu mẫu đúng |
+| Recall/Sensitivity | Trong các mẫu thật sự dương tính, mô hình phát hiện được bao nhiêu |
+| F1-score | Cân bằng giữa precision và recall |
+| AUROC | Khả năng phân biệt giữa các lớp ở nhiều threshold |
+| Confusion matrix | Mô hình nhầm lớp nào sang lớp nào |
+| Error cases | Các mẫu sai cần phân tích thủ công |
 
-phụ trách chính phần kỹ thuật:
+Với ảnh y khoa, **Recall/Sensitivity** đặc biệt quan trọng vì bỏ sót bệnh thường nguy hiểm hơn báo động sai.
 
-- khảo sát MedCLIP, CLIP-LoRA;
-- chuẩn bị code inference;
-- chạy baseline;
-- chạy zero-shot/few-shot;
-- tổng hợp metric và bảng kết quả.
+---
 
-25C11071 — Trương Lê Bảo Trân
+# 4. Workflow Classification trong ảnh y khoa
 
-Phụ trách chính phần dữ liệu và báo cáo:
+## 4.1. Đặc điểm riêng của dữ liệu y khoa
 
-- khảo sát dataset BTXRD, MURA, MedMNIST;
-- viết survey workflow;
-- viết phần Foundation Model;
-- hỗ trợ phân tích kết quả;
-- hoàn thiện báo cáo và slide.
+Ảnh y khoa có nhiều đặc điểm khác ảnh tự nhiên:
 
-# Tài liệu tham khảo
+- Dữ liệu ít và khó công khai.
+- Nhãn cần chuyên gia y tế.
+- Có thể lệch lớp nghiêm trọng.
+- Một ảnh có thể cần metadata đi kèm.
+- Lỗi false negative có rủi ro cao.
+- Mô hình cần được đánh giá bằng nhiều metric, không chỉ accuracy.
+
+Trong bài toán này, input không nên hiểu là “chỉ ảnh”. Khi dùng Med-VLM/Med-MLLM, input có thể gồm:
+
+```txt
+Ảnh X-quang xương
++ prompt văn bản mô tả lớp cần phân loại
++ metadata nếu có
++ vài mẫu labeled examples nếu dùng few-shot
+```
+
+---
+
+## 4.2. Workflow 1: Supervised CNN/ViT truyền thống
+
+Workflow này phù hợp khi có dữ liệu gán nhãn đủ lớn.
+
+```txt
+X-ray Images
+    |
+    v
+Expert Labels
+    |
+    v
+Train / Validation / Test Split
+    |
+    v
+Preprocessing + Augmentation
+    |
+    v
+CNN / ViT
+    |
+    v
+Supervised Training
+    |
+    v
+Prediction
+    |
+    v
+Evaluation
+```
+
+Ưu điểm:
+
+- Dễ triển khai.
+- Dễ đánh giá.
+- Phù hợp làm baseline.
+
+Hạn chế:
+
+- Cần nhiều dữ liệu gán nhãn.
+- Khả năng tổng quát sang dataset mới có thể thấp.
+- Ít tận dụng tri thức ngôn ngữ y khoa.
+
+---
+
+## 4.3. Workflow 2: Zero-shot Classification bằng Med-VLM
+
+Workflow này dùng mô hình ảnh-văn bản đã tiền huấn luyện. Mô hình so sánh ảnh với các prompt mô tả lớp.
+
+```txt
+X-ray Image -----------------> Image Encoder ----                                                   > Similarity Score -> Predicted Class
+Text Prompts -> Text Encoder --------------------/
+```
+
+Ví dụ prompt:
+
+```txt
+"a normal bone X-ray"
+"an X-ray showing bone tumor"
+"an X-ray showing benign bone lesion"
+"an X-ray showing malignant bone tumor"
+```
+
+Ưu điểm:
+
+- Không cần huấn luyện lại.
+- Phù hợp để kiểm tra nhanh khả năng của Foundation Model.
+- Có thể dùng khi dữ liệu gán nhãn ít.
+
+Hạn chế:
+
+- Phụ thuộc mạnh vào chất lượng prompt.
+- Có thể kém ổn định nếu domain khác dữ liệu tiền huấn luyện.
+- Cần đánh giá kỹ confidence và lỗi phân loại.
+
+---
+
+## 4.4. Workflow 3: Few-shot Adaptation bằng LoRA
+
+Workflow này dùng một lượng nhỏ dữ liệu có nhãn để thích nghi mô hình.
+
+```txt
+Pretrained Med-VLM
+    |
+    v
+Freeze Main Parameters
+    |
+    v
+Insert LoRA Modules
+    |
+    v
+Train on Few-shot Samples
+    |
+    v
+Evaluate on Test Set
+```
+
+Ưu điểm:
+
+- Ít tốn tài nguyên hơn fine-tuning toàn bộ mô hình.
+- Phù hợp với dữ liệu y khoa ít nhãn.
+- Có thể cải thiện so với zero-shot.
+
+Hạn chế:
+
+- Vẫn cần dữ liệu gán nhãn sạch.
+- Cần chọn số shot và hyperparameter hợp lý.
+- Cần kiểm tra overfitting.
+
+---
+
+# 5. Tổng quan về Foundation Models
+
+Foundation Model là mô hình được tiền huấn luyện trên lượng dữ liệu lớn, sau đó có thể thích nghi cho nhiều tác vụ hạ nguồn.
+
+Trong đề tài này, có ba nhóm mô hình chính:
+
+| Nhóm mô hình | Đặc điểm | Vai trò trong đề tài |
+|---|---|---|
+| Vision Models | Chỉ xử lý ảnh | Làm baseline: CNN, ViT, ResNet |
+| Med-VLM | Xử lý ảnh + văn bản | Zero-shot, prompt-based classification |
+| Med-MLLM | Ảnh + ngôn ngữ + hội thoại | Sinh giải thích, hỗ trợ phân tích kết quả |
+
+Quan hệ tổng quát:
+
+```txt
+Foundation Model
+    |
+    +-- Vision Model
+    |      -> image classification
+    |
+    +-- Medical Vision-Language Model
+    |      -> image-text matching, zero-shot classification
+    |
+    +-- Medical Multimodal LLM
+           -> visual question answering, explanation, reasoning
+```
+
+---
+
+# 6. Phát biểu lại bài toán nghiên cứu
+
+## 6.1. Bài toán tổng quát
+
+Cho một ảnh X-quang xương và các thông tin hỗ trợ nếu có, hệ thống cần dự đoán ảnh thuộc lớp nào trong tập nhãn y khoa đã định nghĩa trước.
+
+Trong ngữ cảnh Vision-Language Model, input có thể gồm ảnh và các prompt văn bản mô tả giả thuyết bệnh. Prompt không nhất thiết là mô tả riêng của đúng bệnh nhân, mà có thể là mô tả đại diện cho từng class.
+
+Phát biểu ngắn gọn:
+
+```txt
+Input:
+    Ảnh X-quang xương
+    + prompt văn bản nếu dùng VLM
+    + metadata nếu có
+
+Output:
+    Nhãn phân loại
+    + xác suất/confidence
+    + top-k prediction
+    + giải thích nếu mô hình hỗ trợ
+```
+
+---
+
+## 6.2. Các mức độ bài toán
+
+| Mức | Bài toán | Input | Output |
+|---|---|---|---|
+| Cơ bản | Binary classification | Ảnh X-quang | Normal / Tumor |
+| Trung bình | Multi-class classification | Ảnh X-quang | Normal / Benign / Malignant |
+| Mở rộng | Multimodal classification | Ảnh + prompt + metadata | Nhãn + confidence + giải thích |
+| Nâng cao | Few-shot adaptation | Ảnh + vài mẫu có nhãn | Mô hình thích nghi tốt hơn |
+
+---
+
+## 6.3. Mục tiêu theo cấp bậc
+
+| Cấp | Mục tiêu | Nội dung cần thực hiện | Kết quả đầu ra |
+|---|---|---|---|
+| Cấp 1 | Hiểu mô hình và kỹ thuật | Khảo sát classification, Med-VLM, Med-MLLM, MedCLIP, LoRA | Survey + workflow + bảng so sánh |
+| Cấp 2 | Chạy inference xác nhận kết quả | Chạy baseline CNN/ViT và zero-shot Med-VLM | Metric ban đầu + nhận xét |
+| Cấp 3 | Nhận định trên kết quả/dataset mới | Phân tích lỗi, so sánh workflow, đánh giá few-shot nếu khả thi | Kết luận nghiên cứu + hướng phát triển |
+
+---
+
+# 7. Đánh giá tiềm năng đề tài
+
+Đề tài có tiềm năng nếu được định vị là một nghiên cứu **khảo sát và tái lập thực nghiệm** trên bài toán phân lớp ảnh X-quang xương.
+
+Mức đóng góp chính:
+
+- Xây dựng workflow rõ ràng cho bài toán bone X-ray classification.
+- So sánh baseline truyền thống với Foundation Model.
+- Kiểm tra khả năng zero-shot/few-shot trên dataset BTXRD.
+- Phân tích lỗi và giới hạn của mô hình.
+- Đề xuất hướng mở rộng sang localization/segmentation hoặc explanation.
+
+Rủi ro chính:
+
+- Mô hình zero-shot có thể cho kết quả thấp.
+- Dataset có thể lệch lớp hoặc nhãn chưa đủ chi tiết.
+- Tài nguyên tính toán có thể hạn chế khi fine-tuning.
+- Kết quả không được diễn giải như chẩn đoán y khoa chính thức.
+
+---
+
+# 8. Timeline thực hiện
+
+Thời gian dự kiến: **2.5 tháng**.
+
+## 8.1. Các task chính của project
+
+| Giai đoạn | Công việc | Kết quả cần có |
+|---|---|---|
+| Tuần 1 | Khảo sát đề tài và tài liệu liên quan | Tổng quan MedCLIP, LoRA, BTXRD |
+| Tuần 2 | Viết survey workflow | Workflow classification và medical classification |
+| Tuần 3 | Chuẩn bị dữ liệu | Thống kê dataset, split train/val/test |
+| Tuần 4 | Chạy baseline truyền thống | Kết quả CNN/ViT hoặc ResNet |
+| Tuần 5 | Chạy zero-shot Med-VLM | Kết quả MedCLIP/BioMedCLIP nếu khả thi |
+| Tuần 6 | Phân tích few-shot adaptation | Đánh giá tính khả thi LoRA/few-shot |
+| Tuần 7 | Tổng hợp và phân tích kết quả | Bảng metric, confusion matrix, error cases |
+| Tuần 8-10 | Viết báo cáo và hoàn thiện | Report, slide, source code, kết luận |
+
+---
+
+## 8.2. Phân công thành viên
+
+| Thành viên | Vai trò chính | Nhiệm vụ |
+|---|---|---|
+| 25C11042 — Nguyễn Trọng Hiếu | Kỹ thuật và thực nghiệm | Khảo sát MedCLIP/CLIP-LoRA; chuẩn bị code inference; chạy baseline; chạy zero-shot/few-shot; tổng hợp metric |
+| 25C11071 — Trương Lê Bảo Trân | Dữ liệu và báo cáo | Khảo sát BTXRD, MURA, MedMNIST; viết survey workflow; viết phần Foundation Model; hỗ trợ phân tích kết quả; hoàn thiện báo cáo và slide |
+
+---
+
+# 9. Kết quả kỳ vọng
+
+Kết quả cuối cùng của đề tài gồm:
+
+- Một bản survey ngắn gọn về workflow classification và Foundation Model trong ảnh y khoa.
+- Một pipeline thực nghiệm cho bài toán phân lớp ảnh X-quang xương.
+- Kết quả baseline truyền thống.
+- Kết quả zero-shot hoặc few-shot nếu triển khai được.
+- Bảng đánh giá metric và phân tích lỗi.
+- Báo cáo hoàn chỉnh có thể dùng làm nền tảng cho nghiên cứu tiếp theo.
+
+Tóm tắt pipeline kỳ vọng:
+
+```txt
+BTXRD Dataset
+    |
+    v
+Data Preparation
+    |
+    +--> CNN/ViT Baseline
+    |
+    +--> Zero-shot Med-VLM
+    |
+    +--> Few-shot LoRA if feasible
+    |
+    v
+Evaluation
+    |
+    v
+Result Analysis + Report
+```
+
+---
+
+# 10. Tài liệu tham khảo
+
 - [Bone Tumor X-ray Radiograph Dataset — BTXRD](https://www.kaggle.com/datasets/thanhngan123/btxrd-data?resource=download)
 - [2022 MedCLIP: Contrastive Learning from Unpaired Medical Images and Text](https://arxiv.org/abs/2210.10163)
 - [2024 Low-Rank Few-Shot Adaptation of Vision-Language Models](https://arxiv.org/abs/2405.18541)
-
