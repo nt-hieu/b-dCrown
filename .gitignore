@@ -6,10 +6,12 @@
 !/.gitignore
 
 # Allow only the Thigiacmaytinh directory and all its contents
-!/Thigiacmaytinh/
-!/Thigiacmaytinh/**
+!/class/Thigiacmaytinh/
+!/class/Thigiacmaytinh/**
 
 !/root_paper/
 !/root_paper/**
 
+!/math_studies/
+!/math_studies/6.042j-fall-2005/
 !/math_studies/6.042j-fall-2005/lecture_note/**
