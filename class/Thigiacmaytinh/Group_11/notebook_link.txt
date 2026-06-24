@@ -1,0 +1,4 @@
+Dán link Colab đã chạy và bật quyền xem tại đây:
+<PASTE_COLAB_LINK_HERE>
+
+Ghi chú: file ResNet_Classification_Group11_Clean.ipynb đã được làm sạch. Hãy upload file này lên Colab, chạy lại nếu cần, rồi thay placeholder bằng link chia sẻ có quyền xem.
